@@ -26,5 +26,5 @@ jobs:
           sudo cmake -B build
           sudo cmake --build build --target install
 
-      - name: Test (HW2)
+      - name: Tests (HW2 + HW3)
         run: make test

@@ -13,9 +13,9 @@ endif
 HW1_SRC := HW1/main.cpp
 HW1_BIN := $(BUILD_DIR)/hw1$(EXE)
 
-# --- HW2 tests ---
-TEST_SRC := tests/hw2_text_editor_test.cpp
-TEST_BIN := $(BUILD_DIR)/hw2_tests$(EXE)
+# --- Tests (HW2 + HW3) ---
+TEST_SRCS := tests/hw2_text_editor_test.cpp tests/hw3_bank_test.cpp
+TEST_BIN := $(BUILD_DIR)/hw_tests$(EXE)
 
 .PHONY: all build run test clean
 
@@ -32,7 +32,7 @@ run: build
 
 test:
 	mkdir -p $(BUILD_DIR)
-	$(CXX) $(CXXFLAGS) -I. $(TEST_SRC) -o $(TEST_BIN) -lgtest -lgtest_main -pthread
+	$(CXX) $(CXXFLAGS) -I. $(TEST_SRCS) -o $(TEST_BIN) -lgtest -lgtest_main -pthread
 	./$(TEST_BIN)
 
 clean:
