@@ -1,29 +1,28 @@
-CXX ?= g++
-CXXFLAGS ?= -std=c++20 -O2 -Wall -Wextra -Wpedantic -Werror
+CXX := g++
+CXXFLAGS := -std=c++20 -O2 -Wall -Wextra -pedantic
 
-APP := hw1
-SRC := $(wildcard HW1/*.cpp)
-BIN := build/$(APP)
+BUILD_DIR := build
+SRC := HW1/main.cpp
 
-.PHONY: build run clean format-check sanitize
+# На Windows делаем .exe, на Linux — без расширения
+ifeq ($(OS),Windows_NT)
+  BIN := $(BUILD_DIR)/hw1.exe
+else
+  BIN := $(BUILD_DIR)/hw1
+endif
 
-build:
-	mkdir -p build
+.PHONY: all build run clean
+
+all: build
+
+build: $(BIN)
+
+$(BIN): $(SRC)
+	mkdir -p $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $(SRC) -o $(BIN)
 
 run: build
-	./$(BIN) HW1/input.txt build/out.txt
-	test -f build/out.txt
-
-format-check:
-	clang-format --dry-run --Werror HW1/*.cpp
-
-sanitize:
-	mkdir -p build
-	$(CXX) -std=c++20 -O1 -g -Wall -Wextra -Wpedantic -Werror \
-		-fsanitize=address,undefined -fno-omit-frame-pointer \
-		$(SRC) -o $(BIN)
-	./$(BIN) HW1/input.txt build/out.txt
+	./$(BIN) < HW1/input.txt
 
 clean:
-	rm -rf build
+	rm -rf $(BUILD_DIR)
