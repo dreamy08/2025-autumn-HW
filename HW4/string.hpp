@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <ostream>
 
 // Базовый String (обёртка над std::string)
 class String {
@@ -36,3 +37,8 @@ public:
 
     Slice operator[](std::size_t i) const { return Slice(*this, i); }
 };
+
+// Печать String в std::cout
+inline std::ostream& operator<<(std::ostream& os, const String& s) {
+    return os << s.std();
+}
