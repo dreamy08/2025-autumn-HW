@@ -2,27 +2,38 @@ CXX := g++
 CXXFLAGS := -std=c++20 -O2 -Wall -Wextra -pedantic
 
 BUILD_DIR := build
-SRC := HW1/main.cpp
 
-# На Windows делаем .exe, на Linux — без расширения
+# расширение бинарников под ОС
+EXE :=
 ifeq ($(OS),Windows_NT)
-  BIN := $(BUILD_DIR)/hw1.exe
-else
-  BIN := $(BUILD_DIR)/hw1
+  EXE := .exe
 endif
 
-.PHONY: all build run clean
+# --- HW1 ---
+HW1_SRC := HW1/main.cpp
+HW1_BIN := $(BUILD_DIR)/hw1$(EXE)
+
+# --- HW2 tests ---
+TEST_SRC := tests/hw2_text_editor_test.cpp
+TEST_BIN := $(BUILD_DIR)/hw2_tests$(EXE)
+
+.PHONY: all build run test clean
 
 all: build
 
-build: $(BIN)
+build: $(HW1_BIN)
 
-$(BIN): $(SRC)
+$(HW1_BIN): $(HW1_SRC)
 	mkdir -p $(BUILD_DIR)
-	$(CXX) $(CXXFLAGS) $(SRC) -o $(BIN)
+	$(CXX) $(CXXFLAGS) $(HW1_SRC) -o $(HW1_BIN)
 
 run: build
-	./$(BIN) < HW1/input.txt
+	./$(HW1_BIN) < HW1/input.txt
+
+test:
+	mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) -I. $(TEST_SRC) -o $(TEST_BIN) -lgtest -lgtest_main -pthread
+	./$(TEST_BIN)
 
 clean:
 	rm -rf $(BUILD_DIR)

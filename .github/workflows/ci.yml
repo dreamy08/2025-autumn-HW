@@ -7,13 +7,24 @@ on:
     branches: [ "ci_test" ]
 
 jobs:
-  build-and-run:
+  build-run-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build
+      - name: Build (HW1)
         run: make build
 
-      - name: Run
+      - name: Run (HW1)
         run: make run
+
+      - name: Install GTest
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake libgtest-dev
+          cd /usr/src/googletest
+          sudo cmake -B build
+          sudo cmake --build build --target install
+
+      - name: Test (HW2)
+        run: make test
