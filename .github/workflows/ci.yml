@@ -13,10 +13,22 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build (HW1)
-        run: make build
+        run: make build HW=1
 
       - name: Run (HW1)
-        run: make run
+        run: make run HW=1
+
+      - name: Build (HW3)
+        run: make build HW=3
+
+      - name: Run (HW3)
+        run: make run HW=3
+
+      - name: Build (HW4)
+        run: make build HW=4
+
+      - name: Run (HW4)
+        run: make run HW=4
 
       - name: Install GTest
         run: |

@@ -9,11 +9,13 @@ ifeq ($(OS),Windows_NT)
   EXE := .exe
 endif
 
-# --- HW1 ---
-HW1_SRC := HW1/main.cpp
-HW1_BIN := $(BUILD_DIR)/hw1$(EXE)
+# Какая домашка собирается/запускается (по умолчанию HW1)
+HW ?= 1
 
-# --- Tests (HW2 + HW3) ---
+HW_SRC := HW$(HW)/main.cpp
+HW_BIN := $(BUILD_DIR)/hw$(HW)$(EXE)
+
+# --- Tests (по требованию: HW2 + HW3) ---
 TEST_SRCS := tests/hw2_text_editor_test.cpp tests/hw3_bank_test.cpp
 TEST_BIN := $(BUILD_DIR)/hw_tests$(EXE)
 
@@ -21,14 +23,19 @@ TEST_BIN := $(BUILD_DIR)/hw_tests$(EXE)
 
 all: build
 
-build: $(HW1_BIN)
+build: $(HW_BIN)
 
-$(HW1_BIN): $(HW1_SRC)
+$(HW_BIN): $(HW_SRC)
 	mkdir -p $(BUILD_DIR)
-	$(CXX) $(CXXFLAGS) $(HW1_SRC) -o $(HW1_BIN)
+	$(CXX) $(CXXFLAGS) $(HW_SRC) -o $(HW_BIN)
 
+# Для HW1 есть input.txt, для остальных — просто запускаем бинарник
 run: build
-	./$(HW1_BIN) < HW1/input.txt
+ifeq ($(HW),1)
+	./$(HW_BIN) < HW1/input.txt
+else
+	./$(HW_BIN)
+endif
 
 test:
 	mkdir -p $(BUILD_DIR)
