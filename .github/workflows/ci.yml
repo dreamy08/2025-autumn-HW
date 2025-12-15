@@ -30,6 +30,12 @@ jobs:
       - name: Run (HW4)
         run: make run HW=4
 
+      - name: Build (HW5)
+        run: make build HW=5
+
+      - name: Run (HW5)
+        run: make run HW=5
+
       - name: Install GTest
         run: |
           sudo apt-get update
