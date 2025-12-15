@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ "main" ]
+  push:
+    branches: [ "ci_test" ]
+
+jobs:
+  build-run-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build (HW1)
+        run: make build HW=1
+
+      - name: Run (HW1)
+        run: make run HW=1
+
+      - name: Build (HW3)
+        run: make build HW=3
+
+      - name: Run (HW3)
+        run: make run HW=3
+
+      - name: Build (HW4)
+        run: make build HW=4
+
+      - name: Run (HW4)
+        run: make run HW=4
+
+      - name: Build (HW5)
+        run: make build HW=5
+
+      - name: Run (HW5)
+        run: make run HW=5
+
+      - name: Install GTest
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake libgtest-dev
+          cd /usr/src/googletest
+          sudo cmake -B build
+          sudo cmake --build build --target install
+
+      - name: Tests (HW2 + HW3)
+        run: make test
